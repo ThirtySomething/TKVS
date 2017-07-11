@@ -29,9 +29,8 @@
 *.app
 
 # Ignore user defined files and folders
+/.vs
 /Bin
 /Bin/*
 /Build
 /Build/*
-/TKVS.v12.suo
-/TKVS.sdf
