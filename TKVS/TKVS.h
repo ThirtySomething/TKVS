@@ -1,3 +1,22 @@
+//******************************************************************************
+// Copyright 2017 ThirtySomething
+//******************************************************************************
+// This file is part of TKVS.
+//
+// TKVS is free software: you can redistribute it and/or modify it under the
+// terms of the GNU Lesser General Public License as published by the Free
+// Software Foundation, either version 3 of the License, or (at your option)
+// any later version.
+//
+// TKVS is distributed in the hope that it will be useful, but WITHOUT ANY
+// WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+// more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with TKVS. If not, see <http://www.gnu.org/licenses/>.
+//******************************************************************************
+
 #pragma once
 
 #include <map>
@@ -92,6 +111,8 @@ namespace net
 
 				/**
 				 * To add a value to specific key
+				 * \param Key Key Key for saved value
+				 * \param Value Value to save
 				 * \return Pair of key and value
 				 */
 				typename KeyValuePair PairSet(TypeKey Key, TypeValue Value)
@@ -111,6 +132,7 @@ namespace net
 
 				/**
 				 * To remove a key and the value
+				 * \param Key Key of pair to remove to
 				 * \return true on success otherwise false
 				 */
 				bool PairRemove(TypeKey Key)
