@@ -55,12 +55,19 @@ TEST_CASE("PairSet with new elements", "[PairSet - New]")
 {
 	// Instantiation
 	net::derpaul::tools::TKVS<int, int> TKVSIntInt;
+	std::vector<int> KeyList;
+	std::vector<int> KeyListStorage;
 
 	// Save MAX_LOOP key/values, both integers
 	for (int Loop = 0; Loop < MAX_LOOP; Loop++)
 	{
 		// Add pair
 		net::derpaul::tools::TKVS<int, int>::KeyValuePair Result = TKVSIntInt.PairSet(Loop, Loop);
+
+		// Check all keys
+		KeyList.push_back(Loop);
+		KeyListStorage = TKVSIntInt.GetListOfKeys();
+		REQUIRE(KeyList == KeyListStorage);
 
 		// Retrieve size
 		int KeyValuePairCount = static_cast<int>(TKVSIntInt.size());
@@ -83,6 +90,11 @@ TEST_CASE("PairSet with new elements", "[PairSet - New]")
 	{
 		// Remove pair
 		bool Removed = TKVSIntInt.PairRemove(Loop);
+
+		// Check all keys
+		KeyList.erase(std::remove(KeyList.begin(), KeyList.end(), Loop), KeyList.end());
+		KeyListStorage = TKVSIntInt.GetListOfKeys();
+		REQUIRE(KeyList == KeyListStorage);
 
 		// Retrieve size
 		int KeyValuePairCount = static_cast<int>(TKVSIntInt.size());

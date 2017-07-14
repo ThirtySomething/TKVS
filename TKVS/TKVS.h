@@ -149,6 +149,21 @@ namespace net
 					return Removed;
 				}
 
+				/**
+				 * Get a vector with all keys
+				 */
+				typename ListKeys GetListOfKeys(void)
+				{
+					ListKeys ListOfKeys;
+
+					for (KeyValueStorage::iterator Loop = m_Data.begin(); Loop != m_Data.end(); ++Loop)
+					{
+						ListOfKeys.push_back(Loop->first);
+					}
+
+					return ListOfKeys;
+				}
+
 			protected:
 				/**
 				 * The storage itself as std::map
