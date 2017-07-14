@@ -17,21 +17,16 @@
 // along with TKVS. If not, see <http://www.gnu.org/licenses/>.
 //******************************************************************************
 
-#define CATCH_CONFIG_MAIN
+#pragma once
 
-#include "TKVS_test.h"
+#include "TKVS.h"
 
 /**
- * Test for creating a key/value storage
+ * Maximum number for loops
  */
-TEST_CASE_METHOD(TKVS_test)
-{
-	TKVS_test SUT;
-	SUT.clear_test();
-	SUT.empty_test();
-	SUT.size_test();
-	SUT.KeyValueGet_test();
-	SUT.KeyValueSet_test();
-	SUT.KeyValueDelete_test();
-	SUT.GetListOfKeys_test();
-}
+static const int MAX_LOOP = 10;
+
+/**
+ * Definition of data type for usage in test case method
+ */
+typedef net::derpaul::tools::TKVS<int, int> TKVSIntInt_Type;

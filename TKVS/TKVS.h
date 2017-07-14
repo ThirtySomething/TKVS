@@ -110,12 +110,31 @@ namespace net
 				}
 
 				/**
+				 * Get value to corresponding key
+				 * \param Key Read value from this key
+				 * \param Value Variable to set value
+				 * \return true on success, otherwise false
+				 */
+				bool KeyValueGet(TypeKey Key, TypeValue &Value)
+				{
+					bool Found = false;
+					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
+
+					if (PositionKey != m_Data.end())
+					{
+						Value = PositionKey->second;
+						Found = true;
+					}
+					return Found;
+				}
+
+				/**
 				 * To add a value to specific key
-				 * \param Key Key Key for saved value
+				 * \param Key Key for saved value
 				 * \param Value Value to save
 				 * \return Pair of key and value
 				 */
-				typename KeyValuePair PairSet(TypeKey Key, TypeValue Value)
+				typename KeyValuePair KeyValueSet(TypeKey Key, TypeValue Value)
 				{
 					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
 
@@ -135,7 +154,7 @@ namespace net
 				 * \param Key Key of pair to remove to
 				 * \return true on success otherwise false
 				 */
-				bool PairRemove(TypeKey Key)
+				bool KeyValueDelete(TypeKey Key)
 				{
 					bool Removed = false;
 					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
@@ -151,6 +170,7 @@ namespace net
 
 				/**
 				 * Get a vector with all keys
+				 * \return A vector with all keys
 				 */
 				typename ListKeys GetListOfKeys(void)
 				{

@@ -17,21 +17,65 @@
 // along with TKVS. If not, see <http://www.gnu.org/licenses/>.
 //******************************************************************************
 
-#define CATCH_CONFIG_MAIN
+#pragma once
 
-#include "TKVS_test.h"
+#include "TKVS_defines.h"
+#include "catch.hpp"
 
 /**
- * Test for creating a key/value storage
+ * Test for TKVS
  */
-TEST_CASE_METHOD(TKVS_test)
+class TKVS_test
 {
-	TKVS_test SUT;
-	SUT.clear_test();
-	SUT.empty_test();
-	SUT.size_test();
-	SUT.KeyValueGet_test();
-	SUT.KeyValueSet_test();
-	SUT.KeyValueDelete_test();
-	SUT.GetListOfKeys_test();
-}
+public:
+	/**
+	 * Default constructor
+	 */
+	explicit TKVS_test(void);
+
+	/**
+	 * Default destructor
+	 */
+	virtual ~TKVS_test(void);
+
+	/**
+	 * Test of clear method
+	 */
+	void clear_test(void);
+
+	/**
+	 * Test of empty method
+	 */
+	void empty_test(void);
+
+	/**
+	 * Test of size method
+	 */
+	void size_test(void);
+
+	/**
+	 * Test of KeyValueGet method
+	 */
+	void KeyValueGet_test(void);
+
+	/**
+	 * Test of KeyValueSet method
+	 */
+	void KeyValueSet_test(void);
+
+	/**
+	 * Test of KeyValueDelete method
+	 */
+	void KeyValueDelete_test(void);
+
+	/**
+	 * Test of GetListOfKeys method
+	 */
+	void GetListOfKeys_test(void);
+
+protected:
+	/**
+	 * Data storage used in all tests
+	 */
+	TKVSIntInt_Type TKVSIntInt;
+};

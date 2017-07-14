@@ -171,9 +171,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TKVS_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TKVS.h" />
+    <ClInclude Include="TKVS_defines.h" />
+    <ClInclude Include="TKVS_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Project.props" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

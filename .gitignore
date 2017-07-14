@@ -34,3 +34,6 @@
 /Bin/*
 /Build
 /Build/*
+/TKVS/TKVS.vcxproj.user
+/doxygen/TKVS.log
+/doxygen/html
