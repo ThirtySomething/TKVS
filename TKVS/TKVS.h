@@ -85,6 +85,8 @@ namespace net
 
 				/**
 				 * Cleanup internal used map
+				 * \attention In case pointers are stored, you have to take care about your objects.
+				 * \attention May create some memory leaks.
 				 */
 				void clear(void)
 				{
