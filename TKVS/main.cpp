@@ -17,21 +17,15 @@
 // along with TKVS. If not, see <http://www.gnu.org/licenses/>.
 //******************************************************************************
 
-#define CATCH_CONFIG_MAIN
-
-#include "TKVS_test.h"
+#define CATCH_CONFIG_RUNNER
+#include "catch.hpp"
 
 /**
  * Test for creating a key/value storage
  */
-TEST_CASE_METHOD(TKVS_test)
+int main(int argc, char* argv[])
 {
-	TKVS_test SUT;
-	SUT.clear_test();
-	SUT.empty_test();
-	SUT.size_test();
-	SUT.KeyValueGet_test();
-	SUT.KeyValueSet_test();
-	SUT.KeyValueDelete_test();
-	SUT.GetListOfKeys_test();
+	int result = Catch::Session().run(argc, argv);
+
+	return (result < 0xff ? result : 0xff);
 }

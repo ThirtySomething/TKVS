@@ -17,207 +17,146 @@
 // along with TKVS. If not, see <http://www.gnu.org/licenses/>.
 //******************************************************************************
 
-#include "TKVS_test.h"
+#pragma once
 
-// ******************************************************************
-// ******************************************************************
-TKVS_test::TKVS_test(void)
+#include "catch.hpp"
+#include "TKVS_defines.h"
+
+TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 {
-	clear_test();
-}
+	TKVSIntInt_Type *TKVSIntInt = new TKVSIntInt_Type();
 
-// ******************************************************************
-// ******************************************************************
-TKVS_test::~TKVS_test(void)
-{
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::clear_test(void)
-{
-	// Call clear method on SUT
-	TKVSIntInt.clear();
-
-	// Check size
-	REQUIRE(0 == TKVSIntInt.size());
-
-	// Check empty
-	REQUIRE(true == TKVSIntInt.empty());
-};
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::empty_test(void)
-{
-	// Ensure defined startup
-	clear_test();
-
-	// Check size
-	REQUIRE(0 == TKVSIntInt.size());
-
-	// Check empty
-	REQUIRE(true == TKVSIntInt.empty());
-
-	// Populate key value storage
-	TKVSIntInt.KeyValueSet(1, 0);
-
-	// Check size
-	REQUIRE(1 == TKVSIntInt.size());
-
-	// Check empty
-	REQUIRE(false == TKVSIntInt.empty());
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::size_test(void)
-{
-	// Ensure defined startup
-	clear_test();
-
-	// Write to empty storage
-	for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+	SECTION("test contstructor")
 	{
-		// Populate key value storage
-		TKVSIntInt.KeyValueSet(Loop, Loop);
-
-		// Check size
-		REQUIRE(Loop == TKVSIntInt.size());
+		CHECK(nullptr != TKVSIntInt);
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
 	}
 
-	// Write to already filled storage
-	for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+	SECTION("test clear method")
 	{
-		// Populate key value storage
-		TKVSIntInt.KeyValueSet(Loop, Loop);
-
-		// Check size
-		REQUIRE(MAX_LOOP == TKVSIntInt.size());
-	}
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::KeyValueGet_test(void)
-{
-	// Ensure defined startup
-	size_test();
-
-	// Search existing entries
-	for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
-	{
-		int Value = 0;
-		bool Found = TKVSIntInt.KeyValueGet(Loop, Value);
-
-		// Check found
-		REQUIRE(true == Found);
-
-		// Check value
-		REQUIRE(Loop == Value);
+		TKVSIntInt->KeyValueSet(1, 0);
+		REQUIRE(0 < TKVSIntInt->size());
+		REQUIRE(false == TKVSIntInt->empty());
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
 	}
 
-	// Search non existing entries
-	for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
+	SECTION("test empty method")
 	{
-		int Value = 0;
-		bool Found = TKVSIntInt.KeyValueGet(Loop, Value);
-
-		// Check found
-		REQUIRE(false == Found);
-
-		// Check value
-		REQUIRE(0 == Value);
-	}
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::KeyValueSet_test(void)
-{
-	// KeyValueSet already tested in size
-	size_test();
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::KeyValueDelete_test(void)
-{
-	// Ensure defined startup
-	size_test();
-
-	// Delete existing entries
-	for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
-	{
-		int Value = 0;
-		bool Found = TKVSIntInt.KeyValueGet(Loop, Value);
-
-		// Check found
-		REQUIRE(true == Found);
-
-		// Check value
-		REQUIRE(Loop == Value);
-
-		bool Delete = TKVSIntInt.KeyValueDelete(Loop);
-
-		// Check deletion
-		REQUIRE(true == Delete);
-
-		Value = 0;
-		Found = TKVSIntInt.KeyValueGet(Loop, Value);
-
-		// Check found
-		REQUIRE(false == Found);
-
-		// Check value
-		REQUIRE(0 == Value);
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		TKVSIntInt->KeyValueSet(1, 0);
+		REQUIRE(1 == TKVSIntInt->size());
+		REQUIRE(false == TKVSIntInt->empty());
 	}
 
-	// Delete non existing entries
-	for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
+	SECTION("test size method")
 	{
-		bool Delete = TKVSIntInt.KeyValueDelete(Loop);
-
-		// Check deletion
-		REQUIRE(false == Delete);
-	}
-}
-
-// ******************************************************************
-// ******************************************************************
-void TKVS_test::GetListOfKeys_test(void)
-{
-	// Ensure defined startup
-	size_test();
-
-	std::vector<int> KeyList;
-
-	// Fill list of keys
-	for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
-	{
-		KeyList.push_back(Loop);
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt->KeyValueSet(Loop, Loop);
+			REQUIRE(Loop == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+		}
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt->KeyValueSet(Loop, Loop);
+			REQUIRE(MAX_LOOP == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+		}
 	}
 
-	std::vector<int> KeyListData = TKVSIntInt.GetListOfKeys();
-
-	// Compare list of keys
-	REQUIRE(KeyList.size() == KeyListData.size());
-	REQUIRE(KeyList == KeyListData);
-
-	// Check changing sizes
-	while (0 < KeyList.size())
+	SECTION("test keyvalueget method")
 	{
-		// Remove element
-		int LastElement = KeyList.back();
-		KeyList.pop_back();
-		bool Delete = TKVSIntInt.KeyValueDelete(LastElement);
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt->KeyValueSet(Loop, Loop);
+			REQUIRE(Loop == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+		}
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			int Value = 0;
+			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			REQUIRE(true == Found);
+			REQUIRE(Loop == Value);
+		}
+		for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
+		{
+			int Value = 0;
+			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			REQUIRE(false == Found);
+			REQUIRE(0 == Value);
+		}
+	}
 
-		// Check deletion
-		REQUIRE(true == Delete);
+	SECTION("test keyvaluedelete method")
+	{
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt->KeyValueSet(Loop, Loop);
+			REQUIRE(Loop == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+		}
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			int Value = 0;
+			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			REQUIRE(true == Found);
+			REQUIRE(Loop == Value);
+			bool Delete = TKVSIntInt->KeyValueDelete(Loop);
+			REQUIRE(true == Delete);
+			Value = 0;
+			Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			REQUIRE(false == Found);
+			REQUIRE(0 == Value);
+		}
+		for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
+		{
+			bool Delete = TKVSIntInt->KeyValueDelete(Loop);
+			REQUIRE(false == Delete);
+		}
+	}
 
-		// Compare list of keys
-		KeyListData = TKVSIntInt.GetListOfKeys();
+	SECTION("test getlistofkeys method")
+	{
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt->KeyValueSet(Loop, Loop);
+			REQUIRE(Loop == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+		}
+		std::vector<int> KeyList;
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			KeyList.push_back(Loop);
+		}
+		std::vector<int> KeyListData = TKVSIntInt->GetListOfKeys();
 		REQUIRE(KeyList.size() == KeyListData.size());
 		REQUIRE(KeyList == KeyListData);
+		while (0 < KeyList.size())
+		{
+			int LastElement = KeyList.back();
+			KeyList.pop_back();
+			bool Delete = TKVSIntInt->KeyValueDelete(LastElement);
+			REQUIRE(true == Delete);
+			KeyListData = TKVSIntInt->GetListOfKeys();
+			REQUIRE(KeyList.size() == KeyListData.size());
+			REQUIRE(KeyList == KeyListData);
+		}
 	}
 }

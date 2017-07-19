@@ -176,7 +176,6 @@
   <ItemGroup>
     <ClInclude Include="TKVS.h" />
     <ClInclude Include="TKVS_defines.h" />
-    <ClInclude Include="TKVS_test.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Project.props" />
