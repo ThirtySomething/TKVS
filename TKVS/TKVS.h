@@ -69,6 +69,7 @@ namespace net
 				 * Constructor
 				 */
 				TKVS(void)
+					: m_Data()
 				{
 				};
 
