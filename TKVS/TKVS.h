@@ -172,6 +172,18 @@ namespace net
 				}
 
 				/**
+				 * Check if given key is already in storage
+				 * \param Key Key to search for
+				 * \return true when key exists, otherwise false
+				 */
+				bool KeyExists(TypeKey Key)
+				{
+					TypeValue Value;
+					bool Result = KeyValueGet(Key, Value);
+					return Result;
+				}
+
+				/**
 				 * Get a vector with all keys
 				 * \return A vector with all keys
 				 */
