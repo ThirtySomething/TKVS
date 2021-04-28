@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <SUFFIXPLATFORM Condition="'$(Platform)'=='Win32'">32</SUFFIXPLATFORM>
     <SUFFIXPLATFORM Condition="'$(Platform)'=='x64'">64</SUFFIXPLATFORM>
     <SUFFIXTYPE Condition="'$(Configuration)'=='Release'"></SUFFIXTYPE>
     <SUFFIXTYPE Condition="'$(Configuration)'=='Debug'">D</SUFFIXTYPE>
