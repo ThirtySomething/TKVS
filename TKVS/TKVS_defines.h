@@ -30,3 +30,8 @@ static const int MAX_LOOP = 10;
  * Definition of data type for usage in test case method
  */
 typedef net::derpaul::tools::TKVS<int, int> TKVSIntInt_Type;
+
+/**
+ * Definition of a pair for convenience purposes
+ */
+typedef std::pair<int, int> TKVSIntInt_Pair;

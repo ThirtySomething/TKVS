@@ -36,7 +36,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 	SECTION("test clear method")
 	{
 		REQUIRE(false == TKVSIntInt->KeyExists(1));
-		TKVSIntInt->KeyValueSet(1, 0);
+		TKVSIntInt->SetKeyValue(1, 0);
 		REQUIRE(0 < TKVSIntInt->size());
 		REQUIRE(false == TKVSIntInt->empty());
 		REQUIRE(true == TKVSIntInt->KeyExists(1));
@@ -51,7 +51,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		REQUIRE(0 == TKVSIntInt->size());
 		REQUIRE(true == TKVSIntInt->empty());
 		REQUIRE(false == TKVSIntInt->KeyExists(1));
-		TKVSIntInt->KeyValueSet(1, 0);
+		TKVSIntInt->SetKeyValue(1, 0);
 		REQUIRE(1 == TKVSIntInt->size());
 		REQUIRE(false == TKVSIntInt->empty());
 		REQUIRE(true == TKVSIntInt->KeyExists(1));
@@ -65,7 +65,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			TKVSIntInt->KeyValueSet(Loop, Loop);
+			TKVSIntInt->SetKeyValue(Loop, Loop);
 			REQUIRE(Loop == TKVSIntInt->size());
 			REQUIRE(false == TKVSIntInt->empty());
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
@@ -73,26 +73,26 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
-			TKVSIntInt->KeyValueSet(Loop, Loop);
+			TKVSIntInt->SetKeyValue(Loop, Loop);
 			REQUIRE(MAX_LOOP == TKVSIntInt->size());
 			REQUIRE(false == TKVSIntInt->empty());
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
 		}
 	}
 
-	SECTION("test keyexist method")
+	SECTION("test keyexists method")
 	{
 		TKVSIntInt->clear();
 		REQUIRE(0 == TKVSIntInt->size());
 		REQUIRE(true == TKVSIntInt->empty());
 		REQUIRE(false == TKVSIntInt->KeyExists(1));
-		TKVSIntInt->KeyValueSet(1, 0);
+		TKVSIntInt->SetKeyValue(1, 0);
 		REQUIRE(1 == TKVSIntInt->size());
 		REQUIRE(false == TKVSIntInt->empty());
 		REQUIRE(true == TKVSIntInt->KeyExists(1));
 	}
 
-	SECTION("test keyvalueget method")
+	SECTION("test getvaluebykey method")
 	{
 		TKVSIntInt->clear();
 		REQUIRE(0 == TKVSIntInt->size());
@@ -100,7 +100,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			TKVSIntInt->KeyValueSet(Loop, Loop);
+			TKVSIntInt->SetKeyValue(Loop, Loop);
 			REQUIRE(Loop == TKVSIntInt->size());
 			REQUIRE(false == TKVSIntInt->empty());
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
@@ -109,7 +109,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		{
 			int Value = 0;
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
-			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			bool Found = TKVSIntInt->GetValueByKey(Loop, Value);
 			REQUIRE(true == Found);
 			REQUIRE(Loop == Value);
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
@@ -118,14 +118,14 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		{
 			int Value = 0;
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			bool Found = TKVSIntInt->GetValueByKey(Loop, Value);
 			REQUIRE(false == Found);
 			REQUIRE(0 == Value);
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
 		}
 	}
 
-	SECTION("test keyvaluedelete method")
+	SECTION("test getvaluebykey method")
 	{
 		TKVSIntInt->clear();
 		REQUIRE(0 == TKVSIntInt->size());
@@ -133,7 +133,42 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			TKVSIntInt->KeyValueSet(Loop, Loop);
+			TKVSIntInt->SetKeyValue(Loop, Loop);
+			REQUIRE(Loop == TKVSIntInt->size());
+			REQUIRE(false == TKVSIntInt->empty());
+			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
+		}
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			TKVSIntInt_Pair pair;
+			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
+			bool Found = TKVSIntInt->GetPairByKey(Loop, pair);
+			REQUIRE(true == Found);
+			REQUIRE(Loop == pair.first);
+			REQUIRE(Loop == pair.second);
+			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
+		}
+		for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
+		{
+			TKVSIntInt_Pair pair;
+			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
+			bool Found = TKVSIntInt->GetPairByKey(Loop, pair);
+			REQUIRE(false == Found);
+			REQUIRE(0 == pair.first);
+			REQUIRE(0 == pair.second);
+			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
+		}
+	}
+
+	SECTION("test deleteentrybykey method")
+	{
+		TKVSIntInt->clear();
+		REQUIRE(0 == TKVSIntInt->size());
+		REQUIRE(true == TKVSIntInt->empty());
+		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
+		{
+			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
+			TKVSIntInt->SetKeyValue(Loop, Loop);
 			REQUIRE(Loop == TKVSIntInt->size());
 			REQUIRE(false == TKVSIntInt->empty());
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
@@ -141,15 +176,15 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			int Value = 0;
-			bool Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			bool Found = TKVSIntInt->GetValueByKey(Loop, Value);
 			REQUIRE(true == Found);
 			REQUIRE(Loop == Value);
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
-			bool Delete = TKVSIntInt->KeyValueDelete(Loop);
+			bool Delete = TKVSIntInt->DeleteEntryByKey(Loop);
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
 			REQUIRE(true == Delete);
 			Value = 0;
-			Found = TKVSIntInt->KeyValueGet(Loop, Value);
+			Found = TKVSIntInt->GetValueByKey(Loop, Value);
 			REQUIRE(false == Found);
 			REQUIRE(0 == Value);
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
@@ -157,7 +192,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = (MAX_LOOP + 1); Loop <= (2 * MAX_LOOP); Loop++)
 		{
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			bool Delete = TKVSIntInt->KeyValueDelete(Loop);
+			bool Delete = TKVSIntInt->DeleteEntryByKey(Loop);
 			REQUIRE(false == Delete);
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
 		}
@@ -171,7 +206,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 		for (int Loop = 1; Loop <= MAX_LOOP; Loop++)
 		{
 			REQUIRE(false == TKVSIntInt->KeyExists(Loop));
-			TKVSIntInt->KeyValueSet(Loop, Loop);
+			TKVSIntInt->SetKeyValue(Loop, Loop);
 			REQUIRE(Loop == TKVSIntInt->size());
 			REQUIRE(false == TKVSIntInt->empty());
 			REQUIRE(true == TKVSIntInt->KeyExists(Loop));
@@ -189,7 +224,7 @@ TEST_CASE("TKVS - Template Key Value Storage", "[net][derpaul][tools][TKVS]")
 			int LastElement = KeyList.back();
 			KeyList.pop_back();
 			REQUIRE(true == TKVSIntInt->KeyExists(LastElement));
-			bool Delete = TKVSIntInt->KeyValueDelete(LastElement);
+			bool Delete = TKVSIntInt->DeleteEntryByKey(LastElement);
 			REQUIRE(false == TKVSIntInt->KeyExists(LastElement));
 			REQUIRE(true == Delete);
 			KeyListData = TKVSIntInt->GetListOfKeys();

@@ -113,20 +113,37 @@ namespace net
 				}
 
 				/**
-				 * Get value to corresponding key
-				 * \param Key Read value from this key
-				 * \param Value Variable to set value
-				 * \return true on success, otherwise false
+				 * Get a pair by passed key
+				 * \param Key Find the pair by given key
+				 * \param Pair Variable to set value
+				 * \return true on found key, otherwise false
 				 */
-				bool KeyValueGet(TypeKey Key, TypeValue &Value)
+				bool GetPairByKey(const TypeKey &Key, KeyValuePair& Pair)
 				{
 					bool Found = false;
 					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
 
 					if (PositionKey != m_Data.end())
 					{
-						Value = PositionKey->second;
+						Pair = std::make_pair(PositionKey->first, PositionKey->second);
 						Found = true;
+					}
+					return Found;
+				}
+
+				/**
+				 * Get value to corresponding key
+				 * \param Key Read value from this key
+				 * \param Value Variable to set value
+				 * \return true on success, otherwise false
+				 */
+				bool GetValueByKey(const TypeKey &Key, TypeValue &Value)
+				{
+					KeyValuePair KeyValueData;
+					bool Found = GetPairByKey(Key, KeyValueData);
+					if (Found)
+					{
+						Value = KeyValueData.second;
 					}
 					return Found;
 				}
@@ -137,7 +154,7 @@ namespace net
 				 * \param Value Value to save
 				 * \return Pair of key and value
 				 */
-				typename KeyValuePair KeyValueSet(TypeKey Key, TypeValue Value)
+				typename KeyValuePair SetKeyValue(const TypeKey &Key, const TypeValue &Value)
 				{
 					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
 
@@ -157,7 +174,7 @@ namespace net
 				 * \param Key Key of pair to remove to
 				 * \return true on success otherwise false
 				 */
-				bool KeyValueDelete(TypeKey Key)
+				bool DeleteEntryByKey(const TypeKey &Key)
 				{
 					bool Removed = false;
 					KeyValueStorage::iterator PositionKey = m_Data.find(Key);
@@ -176,10 +193,10 @@ namespace net
 				 * \param Key Key to search for
 				 * \return true when key exists, otherwise false
 				 */
-				bool KeyExists(TypeKey Key)
+				bool KeyExists(const TypeKey &Key)
 				{
 					TypeValue Value;
-					bool Result = KeyValueGet(Key, Value);
+					bool Result = GetValueByKey(Key, Value);
 					return Result;
 				}
 
